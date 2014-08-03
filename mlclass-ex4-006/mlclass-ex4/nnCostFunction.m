@@ -128,6 +128,10 @@ end
 Theta1_grad = Theta1_grad / m;
 Theta2_grad = Theta2_grad / m;
 
+% Regularization
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + lambda/m * Theta1(:, 2:end);
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + lambda/m * Theta2(:, 2:end);
+
 
 % -------------------------------------------------------------
 
