@@ -87,7 +87,17 @@ Y = Y';
 
 % cost. The nested sums will compress this to a single number
 % follow the formula in the lab sheet
-J = 1/m * sum(sum(-Y .* log(h) - (1-Y) .* log(1-h)))
+J = 1/m * sum(sum(-Y .* log(h) - (1-Y) .* log(1-h)));
+
+% don't regularize the bias terms
+% this corresponds to the first column of each matrix
+% subset the Theta matrices and ignore the 1st column
+% select all rows and columns 2 to the num_columns
+t1 = Theta1(:, 2:size(Theta1, 2));
+t2 = Theta2(:, 2:size(Theta2, 2));
+
+% regularized cost
+J = J + (lambda/(2*m)) * (sum(sum(t1 .^ 2)) + sum(sum(t2 .^ 2)));
 
 
 
