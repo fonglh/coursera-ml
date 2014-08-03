@@ -93,29 +93,40 @@ J = 1/m * sum(sum(-Y .* log(h) - (1-Y) .* log(1-h)));
 % this corresponds to the first column of each matrix
 % subset the Theta matrices and ignore the 1st column
 % select all rows and columns 2 to the num_columns
-t1 = Theta1(:, 2:size(Theta1, 2));
-t2 = Theta2(:, 2:size(Theta2, 2));
+t1 = Theta1(:, 2:end);
+t2 = Theta2(:, 2:end);
 
 % regularized cost
 J = J + (lambda/(2*m)) * (sum(sum(t1 .^ 2)) + sum(sum(t2 .^ 2)));
 
+% back propagation
+for t=1:m
+  % step 1, feed forward for t-th training eg
+  a1 = X(t, :);
+  z2 = Theta1*a1';
+  a2 = sigmoid(z2);
+  a2 = [1 ; a2];
+  z3 = Theta2*a2;
+  a3 = sigmoid(z3);
 
+  % step 2
+  delta3 = a3 - ([1:num_labels]' == y(t));
 
+  % step 3
+  z2 = [1 ; z2];  % add bias
+  delta2 = (Theta2'*delta3) .* sigmoidGradient(z2);
 
+  % step 4
+  % remove delta2_0
+  delta2 = delta2(2:end);
+  Theta2_grad = Theta2_grad + delta3*a2';
+  Theta1_grad = Theta1_grad + delta2*a1;
 
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
+% step 5
+Theta1_grad = Theta1_grad / m;
+Theta2_grad = Theta2_grad / m;
 
 
 % -------------------------------------------------------------
