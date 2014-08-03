@@ -62,6 +62,34 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% add 1s to X
+X = [ones(m, 1), X];
+
+% feed forward
+z2 = X*Theta1';
+a2 = sigmoid(z2);
+a2 = [ones(size(a2, 1), 1), a2];
+z3 = a2*Theta2';
+a3 = sigmoid(z3);
+h = a3;
+
+%recode classification result y as vectors containing 0s and 1s
+% Y will have 1 row for each category and 1 column for each training example
+Y = zeros(num_labels, m);
+for i=1:m,
+  Y(y(i), i) = 1;
+end
+
+% transpose Y so it can be multiplied element wise with the training e.g.
+% size(X) = 5000 10
+% size(Y) was 10 5000 but should be 5000 10
+Y = Y';
+
+% cost. The nested sums will compress this to a single number
+% follow the formula in the lab sheet
+J = 1/m * sum(sum(-Y .* log(h) - (1-Y) .* log(1-h)))
+
+
 
 
 
