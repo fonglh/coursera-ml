@@ -26,9 +26,9 @@ squares = diff .^ 2;
 J = sum(squares) / (2*m);
 
 % add regularization
-J = J + lambda/(2*m) * sum(theta .^ 2)
+J = J + lambda/(2*m) * sum(theta .^ 2);
 % subtract away theta(1) which should be be regularized
-J = J - lambda/(2*m) * theta(1) * theta(1)
+J = J - lambda/(2*m) * theta(1) * theta(1);
 
 grad = (X' * (H-y)) / m + lambda/m * theta;
 % set gradient w.r.t theta(1) to a value without the regularization parameter
