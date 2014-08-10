@@ -19,7 +19,20 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+% normal cost function
+H = X * theta;
+diff = H-y;
+squares = diff .^ 2;
+J = sum(squares) / (2*m);
 
+% add regularization
+J = J + lambda/(2*m) * sum(theta .^ 2)
+% subtract away theta(1) which should be be regularized
+J = J - lambda/(2*m) * theta(1) * theta(1)
+
+grad = (X' * (H-y)) / m + lambda/m * theta;
+% set gradient w.r.t theta(1) to a value without the regularization parameter
+grad(1) = ((X' * (H-y))/m)(1);
 
 
 
