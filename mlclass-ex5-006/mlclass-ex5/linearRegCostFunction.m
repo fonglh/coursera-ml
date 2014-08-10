@@ -34,15 +34,6 @@ grad = (X' * (H-y)) / m + lambda/m * theta;
 % set gradient w.r.t theta(1) to a value without the regularization parameter
 grad(1) = ((X' * (H-y))/m)(1);
 
-
-
-
-
-
-
-
-
-
 % =========================================================================
 
 grad = grad(:);
