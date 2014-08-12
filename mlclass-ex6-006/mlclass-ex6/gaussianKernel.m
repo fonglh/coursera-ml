@@ -15,12 +15,9 @@ sim = 0;
 %               sigma
 %
 %
-
-
-
-
-
-
+numerator = sum((x1 - x2) .^ 2);
+exponent = -1 * numerator / (2 * sigma * sigma);
+sim = exp(exponent);
 % =============================================================
     
 end
