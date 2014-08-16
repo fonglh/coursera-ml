@@ -26,12 +26,15 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+for i=1:K;
+  selected = (idx == i);  % create logical vector for centroid
 
+  % points contains subset of X belonging to the centroid
+  points = X(selected, :);
 
-
-
-
-
+  % use built-in function to get the mean
+  centroids(i, :) = mean(points);
+end
 
 % =============================================================
 
