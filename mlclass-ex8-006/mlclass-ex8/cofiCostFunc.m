@@ -39,9 +39,31 @@ Theta_grad = zeros(size(Theta));
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
 %
-M = X * Theta'; % get predicted ratings
-M = (M - Y) .^ 2;  % find squared difference between predicted and actual
-J = 1/2 * sum(sum(M .* R)); %formula for cost, sum up everything which has a rating
+predicted = X * Theta'; % get predicted ratings
+sq_diff = (predicted - Y) .^ 2;  % find squared difference between predicted and actual
+J = 1/2 * sum(sum(sq_diff .* R)); %formula for cost, sum up everything which has a rating
+J = J + lambda*sum(sum(Theta .^ 2))/2;  %add regularization for Theta
+J = J + lambda*sum(sum(X .^ 2))/2;      %add regularization for X
+
+% calc X_grad
+for i=1:num_movies
+  idx = find(R(i, :) == 1); %all users which have rated movie i
+  Theta_temp = Theta(idx, :);
+  Y_temp = Y(i, idx);
+
+  X_grad(i, :) = (X(i, :) * Theta_temp' - Y_temp) * Theta_temp;
+end
+
+% calc Theta_grad
+for j=1:num_users
+  idx = find(R(:, j) == 1)'; % all movies rated by user i
+  X_temp = X(idx, :);
+  Y_temp = Y(idx, j);
+
+  Theta_grad(j, :) = (X_temp * Theta(j, :)' - Y_temp)' * X_temp;
+end
+
+
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
