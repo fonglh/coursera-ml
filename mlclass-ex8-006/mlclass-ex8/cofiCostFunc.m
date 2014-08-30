@@ -39,22 +39,9 @@ Theta_grad = zeros(size(Theta));
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+M = X * Theta'; % get predicted ratings
+M = (M - Y) .^ 2;  % find squared difference between predicted and actual
+J = 1/2 * sum(sum(M .* R)); %formula for cost, sum up everything which has a rating
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
