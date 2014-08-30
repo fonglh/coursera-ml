@@ -52,6 +52,7 @@ for i=1:num_movies
   Y_temp = Y(i, idx);
 
   X_grad(i, :) = (X(i, :) * Theta_temp' - Y_temp) * Theta_temp;
+  X_grad(i, :) = X_grad(i, :) + lambda * X(i, :); %regularization for X
 end
 
 % calc Theta_grad
@@ -61,6 +62,7 @@ for j=1:num_users
   Y_temp = Y(idx, j);
 
   Theta_grad(j, :) = (X_temp * Theta(j, :)' - Y_temp)' * X_temp;
+  Theta_grad(j, :) = Theta_grad(j, :) + lambda * Theta(j, :);
 end
 
 
